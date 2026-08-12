@@ -528,7 +528,53 @@
     </div>
   </div>
 </section>
- 
+
+<script>
+  function enviarWhatsApp() {
+    // Tomamos los valores ingresados en el formulario
+    const nombre = document.getElementById('nombre').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    // Validamos que no envíe campos vacíos
+    if (!nombre || !mensaje) {
+      alert("Por favor, completa al menos tu nombre y el mensaje antes de enviar.");
+      return;
+    }
+
+    // Tu número de WhatsApp sin espacios, sin '+' y sin '(' o ')'
+    const telefono = "5491156915298";
+
+    // Armamos el texto predeterminado que te llegará al celular
+    let texto = `Hola Eliana, mi nombre es ${nombre}.`;
+    if (email) {
+      texto += ` Mi correo es ${email}.`;
+    }
+    texto += `\n\nConsulta: ${mensaje}`;
+
+    // Codificamos los espacios y caracteres especiales para URL
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+
+    // Abre WhatsApp en una pestaña nueva o abre la app en celulares
+    window.open(url, '_blank');
+  }
+
+  function enviarEmail() {
+    const nombre = document.getElementById('nombre').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    if (!nombre || !email || !mensaje) {
+      alert("Por favor, completa todos los campos para enviar por correo.");
+      return;
+    }
+
+    const mailtoUrl = `mailto:emarques.psi@gmail.com?subject=Consulta Web - ${encodeURIComponent(nombre)}&body=${encodeURIComponent("Nombre: " + nombre + "\nEmail: " + email + "\n\nMensaje:\n" + mensaje)}`;
+    window.location.href = mailtoUrl;
+  }
+</script>  
+
+  
 <footer>
   <svg class="footer-branch" viewBox="-330 -20 350 260" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,0) scale(1.0)">
 <path d="M0,0 Q171.6,-56.4 267.9,-209.3" fill="none" stroke="#EDE7DA" stroke-width="2.4" stroke-linecap="round"/>
