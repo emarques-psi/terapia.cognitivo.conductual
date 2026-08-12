@@ -301,9 +301,10 @@
   </div>
 </section>
 
-
 <section id="contacto">
   <div class="wrap contact-wrap">
+    
+    <!-- Columna izquierda: Datos de contacto -->
     <div class="contact-side">
       <div class="eyebrow">Contacto</div>
       <h3>Demos el primer paso</h3>
@@ -315,63 +316,101 @@
         <div><span class="k">Modalidad</span><span>100% virtual</span></div>
       </div>
     </div>
-    <form id="contactForm" onsubmit="return enviarPorEmail(event)" novalidate>
-      <div class="field"><label>Nombre</label><input id="cf-nombre" type="text" placeholder="Tu nombre"/></div>
-      <div class="field"><label>Email</label><input id="cf-email" type="email" placeholder="tu@email.com"/></div>
-      <div class="field"><label>Mensaje</label><textarea id="cf-mensaje" placeholder="Contame brevemente qué te gustaría trabajar..."></textarea></div>
-      <button type="submit" class="btn btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer; font-family:'Poppins';">Enviar mensaje</button>
-      <div id="cf-hint" style="display:none; color:var(--sage-d); font-size:12.5px; margin-top:10px;">Completá al menos tu nombre y tu mensaje para que pueda responderte.</div>
-    </form>
- 
-    <div id="cf-fallback" style="display:none; margin-top:20px; padding:20px; background:var(--ivory2); border:1px solid var(--taupe); border-radius:12px;">
-      <div style="font-family:'Poppins'; font-size:13px; color:var(--sage-d); margin-bottom:10px;">
-        Si no se abrió tu programa de correo, copiá el mensaje y enviámelo por cualquiera de estas vías:
-      </div>
-      <textarea id="cf-preview" readonly style="width:100%; min-height:120px; padding:12px; border:1px solid var(--taupe); border-radius:8px; font-family:'Poppins'; font-size:13px; color:var(--navy); background:var(--ivory); margin-bottom:14px;"></textarea>
-      <div style="display:flex; flex-wrap:wrap;">
-        <button type="button" onclick="copiarMensaje()" class="btn btn-outline" style="margin:0 10px 10px 0; border:none; cursor:pointer; font-family:'Poppins'; background:var(--ivory); border:1.5px solid var(--navy);">Copiar mensaje</button>
-        <a id="cf-mailto-link" href="#" class="btn btn-outline" style="margin:0 10px 10px 0;">Abrir por email</a>
-        <a id="cf-whatsapp-link" href="#" target="_blank" class="btn btn-primary" style="margin:0 10px 10px 0;">Enviar por WhatsApp</a>
+
+    <!-- Columna derecha: Formulario con botones ajustados -->
+    <div class="contact-form-container">
+      <form id="contactForm" onsubmit="return false;" novalidate>
+        <div class="field"><label>Nombre</label><input id="cf-nombre" type="text" placeholder="Tu nombre"/></div>
+        <div class="field"><label>Email</label><input id="cf-email" type="email" placeholder="tu@email.com"/></div>
+        <div class="field"><label>Mensaje</label><textarea id="cf-mensaje" placeholder="Contame brevemente qué te gustaría trabajar..."></textarea></div>
+        
+        <!-- Botones Principales -->
+        <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
+          <!-- BOTÓN PRINCIPAL: WhatsApp -->
+          <button type="button" onclick="procesarEnvio('whatsapp')" class="btn btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer; font-family:'Poppins';">
+            Enviar por WhatsApp
+          </button>
+          
+          <!-- BOTÓN SECUNDARIO: Correo -->
+          <button type="button" onclick="procesarEnvio('email')" class="btn btn-outline" style="width:100%; text-align:center; cursor:pointer; font-family:'Poppins'; background:transparent; border:1.5px solid var(--navy);">
+            Enviar mensaje por correo
+          </button>
+        </div>
+        
+        <div id="cf-hint" style="display:none; color:var(--sage-d); font-size:12.5px; margin-top:10px; font-weight:500;">
+          Por favor, completá al menos tu nombre y tu mensaje para poder responderte.
+        </div>
+      </form>
+
+      <!-- Panel de respaldo / fallback -->
+      <div id="cf-fallback" style="display:none; margin-top:20px; padding:20px; background:var(--ivory2); border:1px solid var(--taupe); border-radius:12px;">
+        <div style="font-family:'Poppins'; font-size:13px; color:var(--sage-d); margin-bottom:10px;">
+          Si no se abrió la aplicación, podés copiar el mensaje y enviarlo manualmente:
+        </div>
+        <textarea id="cf-preview" readonly style="width:100%; min-height:110px; padding:12px; border:1px solid var(--taupe); border-radius:8px; font-family:'Poppins'; font-size:13px; color:var(--navy); background:var(--ivory); margin-bottom:14px;"></textarea>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" onclick="copiarMensaje(event)" class="btn btn-outline" style="border:none; cursor:pointer; font-family:'Poppins'; background:var(--ivory); border:1.5px solid var(--navy);">Copiar mensaje</button>
+          <a id="cf-whatsapp-link" href="#" target="_blank" class="btn btn-primary">Abrir en WhatsApp</a>
+          <a id="cf-mailto-link" href="#" class="btn btn-outline">Abrir por email</a>
+        </div>
       </div>
     </div>
- 
+
+    <!-- JavaScript del Formulario -->
     <script>
-      function enviarPorEmail(e) {
-        e.preventDefault();
-        const nombre = document.getElementById('cf-nombre').value.trim() || 'Sin nombre';
-        const email = document.getElementById('cf-email').value.trim() || 'Sin email';
-        const mensaje = document.getElementById('cf-mensaje').value.trim() || 'Sin mensaje escrito';
- 
+      function procesarEnvio(canal) {
+        const nombre = document.getElementById('cf-nombre').value.trim();
+        const email = document.getElementById('cf-email').value.trim();
+        const mensaje = document.getElementById('cf-mensaje').value.trim();
+
+        // Validar que al menos haya nombre y mensaje
+        if (!nombre || !mensaje) {
+          document.getElementById('cf-hint').style.display = 'block';
+          return;
+        }
+
         document.getElementById('cf-hint').style.display = 'none';
- 
-        const textoPlano = 'Nombre: ' + nombre + '\n' + 'Email: ' + email + '\n\n' + 'Mensaje:\n' + mensaje;
+
+        // Construir texto
+        let textoPlano = 'Hola Eliana, mi nombre es ' + nombre + '.\n';
+        if (email) textoPlano += 'Email de contacto: ' + email + '\n';
+        textoPlano += '\nConsulta / Motivo:\n' + mensaje;
+
+        // URLs de envío
+        const waTexto = encodeURIComponent(textoPlano);
+        const waUrl = 'https://wa.me/5491156915298?text=' + waTexto;
+
         const asunto = encodeURIComponent('Consulta desde la web - ' + nombre);
         const cuerpo = encodeURIComponent(textoPlano);
         const mailtoUrl = 'mailto:emarques.psi@gmail.com?subject=' + asunto + '&body=' + cuerpo;
-        const waTexto = encodeURIComponent('Hola Eliana! ' + textoPlano);
-        const waUrl = 'https://wa.me/5491156915298?text=' + waTexto;
- 
+
+        // Actualizar panel de respaldo
         document.getElementById('cf-preview').value = textoPlano;
-        document.getElementById('cf-mailto-link').href = mailtoUrl;
         document.getElementById('cf-whatsapp-link').href = waUrl;
+        document.getElementById('cf-mailto-link').href = mailtoUrl;
         document.getElementById('cf-fallback').style.display = 'block';
         document.getElementById('cf-fallback').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
- 
-        window.location.href = mailtoUrl;
-        return false;
+
+        // Ejecutar acción según el botón presionado
+        if (canal === 'whatsapp') {
+          window.open(waUrl, '_blank');
+        } else if (canal === 'email') {
+          window.location.href = mailtoUrl;
+        }
       }
- 
-      function copiarMensaje() {
+
+      function copiarMensaje(ev) {
         const el = document.getElementById('cf-preview');
         el.select();
         el.setSelectionRange(0, 99999);
-        try {
-          document.execCommand('copy');
-        } catch (err) {}
-        if (navigator.clipboard) {
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(el.value);
+        } else {
+          try { document.execCommand('copy'); } catch (err) {}
         }
-        const btn = event.target;
+        
+        const btn = ev.currentTarget || ev.target;
         const original = btn.textContent;
         btn.textContent = '¡Copiado!';
         setTimeout(() => { btn.textContent = original; }, 1800);
@@ -402,7 +441,7 @@
       <a href="#preguntas">Preguntas</a>
       <a href="#contacto">Contacto</a>
     </div>
-    <div class="copyright">© 2026 Eliana Marques · Boceto de sitio web — contenido de ejemplo para reemplazar</div>
+    <div class="copyright">© 2026 Eliana Marques ·</div>
   </div>
 </footer>
  
