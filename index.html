@@ -530,49 +530,59 @@
 </section>
 
 <script>
+  // 1. Envío por WhatsApp
   function enviarWhatsApp() {
-    // Tomamos los valores ingresados en el formulario
     const nombre = document.getElementById('nombre').value.trim();
     const email = document.getElementById('email').value.trim();
     const mensaje = document.getElementById('mensaje').value.trim();
 
-    // Validamos que no envíe campos vacíos
     if (!nombre || !mensaje) {
-      alert("Por favor, completa al menos tu nombre y el mensaje antes de enviar.");
+      alert("Por favor, completa al menos tu nombre y el mensaje.");
       return;
     }
 
-    // Tu número de WhatsApp sin espacios, sin '+' y sin '(' o ')'
     const telefono = "5491156915298";
-
-    // Armamos el texto predeterminado que te llegará al celular
     let texto = `Hola Eliana, mi nombre es ${nombre}.`;
     if (email) {
       texto += ` Mi correo es ${email}.`;
     }
     texto += `\n\nConsulta: ${mensaje}`;
 
-    // Codificamos los espacios y caracteres especiales para URL
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
-
-    // Abre WhatsApp en una pestaña nueva o abre la app en celulares
     window.open(url, '_blank');
   }
 
+  // 2. Envío por Correo (Gmail / Outlook / Mailto)
   function enviarEmail() {
     const nombre = document.getElementById('nombre').value.trim();
     const email = document.getElementById('email').value.trim();
     const mensaje = document.getElementById('mensaje').value.trim();
 
     if (!nombre || !email || !mensaje) {
-      alert("Por favor, completa todos los campos para enviar por correo.");
+      alert("Por favor, completa tu nombre, correo y mensaje.");
       return;
     }
 
-    const mailtoUrl = `mailto:emarques.psi@gmail.com?subject=Consulta Web - ${encodeURIComponent(nombre)}&body=${encodeURIComponent("Nombre: " + nombre + "\nEmail: " + email + "\n\nMensaje:\n" + mensaje)}`;
-    window.location.href = mailtoUrl;
+    const destinatario = "emarques.psi@gmail.com";
+    const asunto = `Consulta Web - ${nombre}`;
+    const cuerpo = `Nombre: ${nombre}\nCorreo de contacto: ${email}\n\nMensaje:\n${mensaje}`;
+
+    // Abre directamente la ventana de redacción de Gmail web en una pestaña nueva
+    const urlGmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(destinatario)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+    
+    // Enlace genérico (abre Outlook si está configurado como predeterminado en la PC/celular)
+    const urlMailto = `mailto:${destinatario}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+
+    // Si el usuario está en computadora y suele usar Gmail web, podés abrir Gmail directo:
+    // Abrir en Gmail web:
+    const abrirEnGmail = window.open(urlGmail, '_blank');
+
+    // Si el navegador bloquea la pestaña emergente o prefiere Outlook/cliente local:
+    if (!abrirEnGmail || abrirEnGmail.closed || typeof abrirEnGmail.closed === 'undefined') {
+      window.location.href = urlMailto;
+    }
   }
-</script>  
+</script>
 
   
 <footer>
