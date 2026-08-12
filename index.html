@@ -176,7 +176,7 @@
     <div>
       <div class="eyebrow">Sobre mí</div>
       <h2 style="font-size:32px; margin:8px 0 20px 0;">Hola, soy Eliana</h2>
-      <p>Soy Psicóloga Clínica con más de 7 años de experiencia, especializada en Terapia Cognitivo Conductual (TCC). Atiendo pacientes de forma virtual, creando un espacio cómodo y confidencial donde poder trabajar en profundidad, sin importar en qué ciudad estés.</p>
+      <p>Soy Psicóloga Clínica, recibida de la Universidad de Buenos Aires, con más de 7 años de experiencia, especializada en Terapia Cognitivo Conductual (TCC). Atiendo pacientes de forma virtual, creando un espacio cómodo y confidencial donde poder trabajar en profundidad, sin importar en qué ciudad estés.</p>
       <blockquote>“Creo en una terapia clara, cercana y con herramientas concretas que puedas llevar a tu vida cotidiana.”</blockquote>
       <p>Mi trabajo combina el rigor de la evidencia científica de la TCC con un acompañamiento cálido, respetando los tiempos y objetivos de cada persona.</p>
     </div>
@@ -230,7 +230,7 @@
       <div class="card">
         <div class="tag">A MEDIDA</div>
         <h3>Procesos puntuales</h3>
-        <p>Espacios breves y focalizados para trabajar una situación concreta: ansiedad, duelo, decisiones, hábitos.</p>
+        <p>Espacios breves y focalizados para trabajar una situación concreta: ansiedad, duelo, estrés, depresión, hábitos.</p>
       </div>
     </div>
   </div>
@@ -256,7 +256,7 @@
       <div class="step">
         <div class="step-dot">3</div>
         <h3>Plan de trabajo</h3>
-        <p>Armamos juntas un plan con frecuencia, herramientas y metas claras.</p>
+        <p>Armamos junt@s un plan con frecuencia, herramientas y metas claras.</p>
       </div>
       <div class="step">
         <div class="step-dot">4</div>
@@ -283,7 +283,7 @@
     <div class="faq">
       <div class="faq-item">
         <h3>¿Cómo son las sesiones virtuales? <span>+</span></h3>
-        <p>Se realizan por videollamada, en un horario que coordinamos juntas. Solo necesitás conexión a internet y un espacio privado.</p>
+        <p>Se realizan por videollamada, en un horario coordinado previamente por mensaje. Solo necesitás conexión a internet y un espacio privado.</p>
       </div>
       <div class="faq-item">
         <h3>¿Cada cuánto tiempo son las sesiones? <span>+</span></h3>
@@ -291,7 +291,7 @@
       </div>
       <div class="faq-item">
         <h3>¿Cuánto dura cada sesión? <span>+</span></h3>
-        <p>Las sesiones tienen una duración estándar de 50 minutos.</p>
+        <p>Las sesiones tienen una duración aproximada de 45 minutos, pudiéndose extender a una hora.</p>
       </div>
       <div class="faq-item">
         <h3>¿Cómo se coordina el pago? <span>+</span></h3>
@@ -320,25 +320,61 @@
       <div class="field"><label>Mensaje</label><textarea id="cf-mensaje" placeholder="Contame brevemente qué te gustaría trabajar..." required></textarea></div>
       <button type="submit" class="btn btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer; font-family:'Poppins';">Enviar mensaje</button>
     </form>
+ 
+    <div id="cf-fallback" style="display:none; margin-top:20px; padding:20px; background:var(--ivory2); border:1px solid var(--taupe); border-radius:12px;">
+      <div style="font-family:'Poppins'; font-size:13px; color:var(--sage-d); margin-bottom:10px;">
+        Si no se abrió tu programa de correo, copiá el mensaje y enviámelo por cualquiera de estas vías:
+      </div>
+      <textarea id="cf-preview" readonly style="width:100%; min-height:120px; padding:12px; border:1px solid var(--taupe); border-radius:8px; font-family:'Poppins'; font-size:13px; color:var(--navy); background:var(--ivory); margin-bottom:14px;"></textarea>
+      <div style="display:flex; flex-wrap:wrap;">
+        <button type="button" onclick="copiarMensaje()" class="btn btn-outline" style="margin:0 10px 10px 0; border:none; cursor:pointer; font-family:'Poppins'; background:var(--ivory); border:1.5px solid var(--navy);">Copiar mensaje</button>
+        <a id="cf-mailto-link" href="#" class="btn btn-outline" style="margin:0 10px 10px 0;">Abrir por email</a>
+        <a id="cf-whatsapp-link" href="#" target="_blank" class="btn btn-primary" style="margin:0 10px 10px 0;">Enviar por WhatsApp</a>
+      </div>
+    </div>
+ 
     <script>
       function enviarPorEmail(e) {
         e.preventDefault();
         const nombre = document.getElementById('cf-nombre').value;
         const email = document.getElementById('cf-email').value;
         const mensaje = document.getElementById('cf-mensaje').value;
+ 
+        const textoPlano = 'Nombre: ' + nombre + '\n' + 'Email: ' + email + '\n\n' + 'Mensaje:\n' + mensaje;
         const asunto = encodeURIComponent('Consulta desde la web - ' + nombre);
-        const cuerpo = encodeURIComponent(
-          'Nombre: ' + nombre + '\n' +
-          'Email: ' + email + '\n\n' +
-          'Mensaje:\n' + mensaje
-        );
-        window.location.href = 'mailto:emarques.psi@gmail.com?subject=' + asunto + '&body=' + cuerpo;
+        const cuerpo = encodeURIComponent(textoPlano);
+        const mailtoUrl = 'mailto:emarques.psi@gmail.com?subject=' + asunto + '&body=' + cuerpo;
+        const waTexto = encodeURIComponent('Hola Eliana! ' + textoPlano);
+        const waUrl = 'https://wa.me/5491156915298?text=' + waTexto;
+ 
+        document.getElementById('cf-preview').value = textoPlano;
+        document.getElementById('cf-mailto-link').href = mailtoUrl;
+        document.getElementById('cf-whatsapp-link').href = waUrl;
+        document.getElementById('cf-fallback').style.display = 'block';
+ 
+        window.location.href = mailtoUrl;
         return false;
+      }
+ 
+      function copiarMensaje() {
+        const el = document.getElementById('cf-preview');
+        el.select();
+        el.setSelectionRange(0, 99999);
+        try {
+          document.execCommand('copy');
+        } catch (err) {}
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(el.value);
+        }
+        const btn = event.target;
+        const original = btn.textContent;
+        btn.textContent = '¡Copiado!';
+        setTimeout(() => { btn.textContent = original; }, 1800);
       }
     </script>
   </div>
 </section>
-
+ 
 <footer>
   <svg class="footer-branch" viewBox="-330 -20 350 260" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,0) scale(1.0)">
 <path d="M0,0 Q171.6,-56.4 267.9,-209.3" fill="none" stroke="#EDE7DA" stroke-width="2.4" stroke-linecap="round"/>
@@ -364,6 +400,6 @@
     <div class="copyright">© 2026 Eliana Marques · Boceto de sitio web — contenido de ejemplo para reemplazar</div>
   </div>
 </footer>
-
+ 
 </body>
 </html>
