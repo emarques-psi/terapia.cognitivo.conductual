@@ -301,6 +301,7 @@
   </div>
 </section>
 
+  
 <section id="contacto">
   <div class="wrap contact-wrap">
     <div class="contact-side">
@@ -314,11 +315,12 @@
         <div><span class="k">Modalidad</span><span>100% virtual</span></div>
       </div>
     </div>
-    <form id="contactForm" onsubmit="return enviarPorEmail(event)">
-      <div class="field"><label>Nombre</label><input id="cf-nombre" type="text" placeholder="Tu nombre" required/></div>
-      <div class="field"><label>Email</label><input id="cf-email" type="email" placeholder="tu@email.com" required/></div>
-      <div class="field"><label>Mensaje</label><textarea id="cf-mensaje" placeholder="Contame brevemente qué te gustaría trabajar..." required></textarea></div>
+    <form id="contactForm" onsubmit="return enviarPorEmail(event)" novalidate>
+      <div class="field"><label>Nombre</label><input id="cf-nombre" type="text" placeholder="Tu nombre"/></div>
+      <div class="field"><label>Email</label><input id="cf-email" type="email" placeholder="tu@email.com"/></div>
+      <div class="field"><label>Mensaje</label><textarea id="cf-mensaje" placeholder="Contame brevemente qué te gustaría trabajar..."></textarea></div>
       <button type="submit" class="btn btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer; font-family:'Poppins';">Enviar mensaje</button>
+      <div id="cf-hint" style="display:none; color:var(--sage-d); font-size:12.5px; margin-top:10px;">Completá al menos tu nombre y tu mensaje para que pueda responderte.</div>
     </form>
  
     <div id="cf-fallback" style="display:none; margin-top:20px; padding:20px; background:var(--ivory2); border:1px solid var(--taupe); border-radius:12px;">
@@ -336,9 +338,11 @@
     <script>
       function enviarPorEmail(e) {
         e.preventDefault();
-        const nombre = document.getElementById('cf-nombre').value;
-        const email = document.getElementById('cf-email').value;
-        const mensaje = document.getElementById('cf-mensaje').value;
+        const nombre = document.getElementById('cf-nombre').value.trim() || 'Sin nombre';
+        const email = document.getElementById('cf-email').value.trim() || 'Sin email';
+        const mensaje = document.getElementById('cf-mensaje').value.trim() || 'Sin mensaje escrito';
+ 
+        document.getElementById('cf-hint').style.display = 'none';
  
         const textoPlano = 'Nombre: ' + nombre + '\n' + 'Email: ' + email + '\n\n' + 'Mensaje:\n' + mensaje;
         const asunto = encodeURIComponent('Consulta desde la web - ' + nombre);
@@ -351,6 +355,7 @@
         document.getElementById('cf-mailto-link').href = mailtoUrl;
         document.getElementById('cf-whatsapp-link').href = waUrl;
         document.getElementById('cf-fallback').style.display = 'block';
+        document.getElementById('cf-fallback').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
  
         window.location.href = mailtoUrl;
         return false;
