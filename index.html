@@ -10,6 +10,7 @@
   :root {
     --ivory:#F7F3EC; --ivory2:#FBF9F5; --sand:#F1EBE0; --navy:#2E4756;
     --sage:#8FA382; --sage-d:#6E8362; --taupe:#D8CFC0; --gold:#C7A66B;
+    --whatsapp:#25D366; --whatsapp-hover:#1EBE5B;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
   html { scroll-behavior:smooth; }
@@ -19,10 +20,11 @@
   .wrap { max-width:1100px; margin:0 auto; padding:0 32px; }
   .eyebrow { font-family:'Poppins'; font-size:13px; letter-spacing:4px; color:var(--sage-d); text-transform:uppercase; font-weight:500; }
   .rule { width:56px; height:2px; background:var(--gold); margin:14px 0 22px 0; }
-  .btn { display:inline-block; padding:15px 36px; border-radius:30px; font-family:'Poppins'; font-size:14px; letter-spacing:1px; font-weight:500; transition:all .2s ease; }
+  
+  .btn { display:inline-flex; align-items:center; justify-content:center; padding:15px 36px; border-radius:30px; font-family:'Poppins'; font-size:14px; letter-spacing:1px; font-weight:500; transition:all .2s ease; border:none; cursor:pointer; }
   .btn-primary { background:var(--navy); color:var(--ivory); }
   .btn-primary:hover { background:var(--sage-d); }
-  .btn-outline { border:1.5px solid var(--navy); color:var(--navy); }
+  .btn-outline { border:1.5px solid var(--navy); color:var(--navy); background:transparent; }
   .btn-outline:hover { background:var(--navy); color:var(--ivory); }
 
   /* NAV */
@@ -88,53 +90,61 @@
   .faq-item h3 { font-size:17px; font-weight:500; color:var(--navy); display:flex; justify-content:space-between; cursor:pointer; }
   .faq-item p { font-size:14.5px; opacity:.85; margin-top:12px; max-width:600px; }
 
-  /* CONTACTO */
-  .contact-buttons-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
+  /* CONTACTO - MAQUETACIÓN Y BOTONES */
+  .contact-wrap { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+  .contact-side h3 { font-size:28px; font-style:italic; margin:8px 0 16px 0; }
+  .contact-list { margin-top:28px; font-size:14.5px; }
+  .contact-list div { margin-bottom:14px; display:flex; gap:12px; }
+  .contact-list .k { color:var(--sage-d); font-weight:500; min-width:90px; }
 
-.btn-whatsapp-main {
-  background-color: var(--navy);
-  color: var(--ivory);
-  width: 100%;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  padding: 14px 20px;
-  border-radius: 30px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
+  .field { margin-bottom:20px; }
+  .field label { display:block; font-size:12.5px; letter-spacing:1.5px; color:var(--sage-d); margin-bottom:8px; text-transform:uppercase; font-weight:500; }
+  .field input, .field textarea { width:100%; padding:14px 16px; border:1px solid var(--taupe); border-radius:10px; background:var(--ivory2); font-family:'Poppins',sans-serif; font-size:14px; color:var(--navy); outline:none; }
+  .field input:focus, .field textarea:focus { border-color:var(--sage-d); }
+  .field textarea { min-height:110px; resize:vertical; }
 
-.btn-whatsapp-main:hover {
-  background-color: var(--sage-d);
-}
+  .contact-buttons-group { display:flex; flex-direction:column; gap:12px; margin-top:16px; }
 
-.btn-email-secondary {
-  background-color: transparent;
-  color: var(--navy);
-  border: 1.5px solid var(--navy);
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-  padding: 14px 20px;
-  border-radius: 30px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
+  .btn-whatsapp-main {
+    background-color: var(--whatsapp);
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    padding: 15px 20px;
+    border-radius: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37,211,102,0.2);
+  }
+  .btn-whatsapp-main:hover {
+    background-color: var(--whatsapp-hover);
+    transform: translateY(-1px);
+  }
 
-.btn-email-secondary:hover {
-  background-color: var(--navy);
-  color: var(--ivory);
-}
-  
+  .btn-email-secondary {
+    background-color: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .btn-email-secondary:hover {
+    background-color: var(--navy);
+    color: var(--ivory);
+  }
+
   /* FOOTER */
   footer { position:relative; background:var(--navy); color:var(--ivory); padding:70px 0 32px 0; overflow:hidden; }
   .footer-branch { position:absolute; top:-20px; right:-20px; width:300px; opacity:.5; }
@@ -147,7 +157,7 @@
   .copyright { font-size:12px; opacity:.55; margin-top:26px; }
 
   @media (max-width:820px) {
-    .about, .contact-wrap { grid-template-columns:1fr; }
+    .about, .contact-wrap { grid-template-columns:1fr; gap:40px; }
     .pillars, .cards { grid-template-columns:1fr; }
     .steps { flex-direction:column; gap:36px; }
     .steps:before { display:none; }
