@@ -89,16 +89,52 @@
   .faq-item p { font-size:14.5px; opacity:.85; margin-top:12px; max-width:600px; }
 
   /* CONTACTO */
-  .contact-wrap { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
-  .field { margin-bottom:20px; }
-  .field label { display:block; font-size:12.5px; letter-spacing:1.5px; color:var(--sage-d); margin-bottom:8px; text-transform:uppercase; }
-  .field input, .field textarea { width:100%; padding:14px 16px; border:1px solid var(--taupe); border-radius:10px; background:var(--ivory2); font-family:'Poppins'; font-size:14px; color:var(--navy); }
-  .field textarea { min-height:110px; resize:vertical; }
-  .contact-side h3 { font-size:26px; font-style:italic; margin-bottom:16px; }
-  .contact-list { margin-top:28px; font-size:14.5px; }
-  .contact-list div { margin-bottom:14px; display:flex; gap:10px; }
-  .contact-list .k { color:var(--sage-d); font-weight:500; min-width:110px; }
+  .contact-buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
 
+.btn-whatsapp-main {
+  background-color: var(--navy);
+  color: var(--ivory);
+  width: 100%;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  padding: 14px 20px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-whatsapp-main:hover {
+  background-color: var(--sage-d);
+}
+
+.btn-email-secondary {
+  background-color: transparent;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  padding: 14px 20px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-email-secondary:hover {
+  background-color: var(--navy);
+  color: var(--ivory);
+}
+  
   /* FOOTER */
   footer { position:relative; background:var(--navy); color:var(--ivory); padding:70px 0 32px 0; overflow:hidden; }
   .footer-branch { position:absolute; top:-20px; right:-20px; width:300px; opacity:.5; }
@@ -317,53 +353,52 @@
       </div>
     </div>
 
-    <!-- Columna derecha: Formulario con botones ajustados -->
+    <!-- Columna derecha: Formulario con los dos botones claramente diferenciados -->
     <div class="contact-form-container">
       <form id="contactForm" onsubmit="return false;" novalidate>
         <div class="field"><label>Nombre</label><input id="cf-nombre" type="text" placeholder="Tu nombre"/></div>
         <div class="field"><label>Email</label><input id="cf-email" type="email" placeholder="tu@email.com"/></div>
         <div class="field"><label>Mensaje</label><textarea id="cf-mensaje" placeholder="Contame brevemente qué te gustaría trabajar..."></textarea></div>
         
-        <!-- Botones Principales -->
-        <div style="display:flex; flex-direction:column; gap:12px; margin-top:10px;">
-          <!-- BOTÓN PRINCIPAL: WhatsApp -->
-          <button type="button" onclick="procesarEnvio('whatsapp')" class="btn btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer; font-family:'Poppins';">
+        <!-- GRUPO DE BOTONES -->
+        <div class="contact-buttons-group">
+          <!-- BOTÓN PRINCIPAL: WHATSAPP -->
+          <button type="button" onclick="procesarEnvio('whatsapp')" class="btn-whatsapp-main">
             Enviar por WhatsApp
           </button>
           
-          <!-- BOTÓN SECUNDARIO: Correo -->
-          <button type="button" onclick="procesarEnvio('email')" class="btn btn-outline" style="width:100%; text-align:center; cursor:pointer; font-family:'Poppins'; background:transparent; border:1.5px solid var(--navy);">
+          <!-- BOTÓN SECUNDARIO: EMAIL -->
+          <button type="button" onclick="procesarEnvio('email')" class="btn-email-secondary">
             Enviar mensaje por correo
           </button>
         </div>
         
-        <div id="cf-hint" style="display:none; color:var(--sage-d); font-size:12.5px; margin-top:10px; font-weight:500;">
+        <div id="cf-hint" style="display:none; color:var(--sage-d); font-size:12.5px; margin-top:12px; font-weight:500;">
           Por favor, completá al menos tu nombre y tu mensaje para poder responderte.
         </div>
       </form>
 
-      <!-- Panel de respaldo / fallback -->
+      <!-- Panel alternativo por si falla la apertura automática -->
       <div id="cf-fallback" style="display:none; margin-top:20px; padding:20px; background:var(--ivory2); border:1px solid var(--taupe); border-radius:12px;">
         <div style="font-family:'Poppins'; font-size:13px; color:var(--sage-d); margin-bottom:10px;">
           Si no se abrió la aplicación, podés copiar el mensaje y enviarlo manualmente:
         </div>
         <textarea id="cf-preview" readonly style="width:100%; min-height:110px; padding:12px; border:1px solid var(--taupe); border-radius:8px; font-family:'Poppins'; font-size:13px; color:var(--navy); background:var(--ivory); margin-bottom:14px;"></textarea>
         <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" onclick="copiarMensaje(event)" class="btn btn-outline" style="border:none; cursor:pointer; font-family:'Poppins'; background:var(--ivory); border:1.5px solid var(--navy);">Copiar mensaje</button>
-          <a id="cf-whatsapp-link" href="#" target="_blank" class="btn btn-primary">Abrir en WhatsApp</a>
-          <a id="cf-mailto-link" href="#" class="btn btn-outline">Abrir por email</a>
+          <button type="button" onclick="copiarMensaje(event)" class="btn-email-secondary" style="width:auto; padding:8px 16px;">Copiar mensaje</button>
+          <a id="cf-whatsapp-link" href="#" target="_blank" class="btn-whatsapp-main" style="width:auto; padding:8px 16px; display:inline-block;">Abrir WhatsApp</a>
+          <a id="cf-mailto-link" href="#" class="btn-email-secondary" style="width:auto; padding:8px 16px; display:inline-block;">Abrir Email</a>
         </div>
       </div>
     </div>
 
-    <!-- JavaScript del Formulario -->
+    <!-- Script de lógica -->
     <script>
       function procesarEnvio(canal) {
         const nombre = document.getElementById('cf-nombre').value.trim();
         const email = document.getElementById('cf-email').value.trim();
         const mensaje = document.getElementById('cf-mensaje').value.trim();
 
-        // Validar que al menos haya nombre y mensaje
         if (!nombre || !mensaje) {
           document.getElementById('cf-hint').style.display = 'block';
           return;
@@ -371,12 +406,10 @@
 
         document.getElementById('cf-hint').style.display = 'none';
 
-        // Construir texto
         let textoPlano = 'Hola Eliana, mi nombre es ' + nombre + '.\n';
         if (email) textoPlano += 'Email de contacto: ' + email + '\n';
         textoPlano += '\nConsulta / Motivo:\n' + mensaje;
 
-        // URLs de envío
         const waTexto = encodeURIComponent(textoPlano);
         const waUrl = 'https://wa.me/5491156915298?text=' + waTexto;
 
@@ -384,14 +417,11 @@
         const cuerpo = encodeURIComponent(textoPlano);
         const mailtoUrl = 'mailto:emarques.psi@gmail.com?subject=' + asunto + '&body=' + cuerpo;
 
-        // Actualizar panel de respaldo
         document.getElementById('cf-preview').value = textoPlano;
         document.getElementById('cf-whatsapp-link').href = waUrl;
         document.getElementById('cf-mailto-link').href = mailtoUrl;
         document.getElementById('cf-fallback').style.display = 'block';
-        document.getElementById('cf-fallback').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        // Ejecutar acción según el botón presionado
         if (canal === 'whatsapp') {
           window.open(waUrl, '_blank');
         } else if (canal === 'email') {
